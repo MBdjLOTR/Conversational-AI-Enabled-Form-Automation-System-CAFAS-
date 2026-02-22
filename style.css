@@ -1,64 +1,92 @@
-/* Progress bar styling */
-.progress-container {
-  width: 100%;
-  background: #ddd;
-  height: 20px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+body{
+    font-family:Arial;
+    background:#f4f6fb;
 }
 
-.progress-bar {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, #3498db, #2ecc71);
-  border-radius: 10px;
-  transition: width 0.5s ease;
+.container{
+    width:650px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.1);
 }
 
-/* Mic indicator */
-.mic-indicator {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: red;
-  margin: 10px;
-  display: inline-block;
-  opacity: 0.3;
-  transition: opacity 0.5s ease;
+h1{
+    text-align:center;
+    color:#2f5de2;
 }
 
-.mic-indicator.active {
-  opacity: 1;
-  animation: blink 1s infinite;
+.subtitle{
+    text-align:center;
+    color:#777;
 }
 
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.3; }
-  100% { opacity: 1; }
+.voice-box{
+    background:#f1f3fa;
+    padding:18px;
+    border-radius:10px;
+    margin:20px 0;
 }
 
-/* Rating stars */
-.star {
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.3s ease;
+.btns{
+    margin-top:12px;
 }
 
-.star:hover {
-  color: gold;
-}
-button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  background: #3498db;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.start{
+    background:#2f5de2;
+    color:white;
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    margin-right:10px;
 }
 
-button:hover {
-  background: #2ecc71;
+.mute{
+    background:#e4e6ef;
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+}
+
+.heard{
+    border-left:4px solid #2f5de2;
+    padding-left:12px;
+    color:#555;
+    margin:15px 0;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+input[type=text],input[type=date]{
+    width:100%;
+    padding:8px;
+    margin-top:6px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+.options label{
+    font-weight:normal;
+    margin-right:15px;
+}
+
+.star{
+    font-size:26px;
+    color:#cfcfcf;
+    cursor:pointer;
+}
+
+.star.active{
+    color:#ffb400;
+}
+
+small{
+    display:block;
+    color:#0a8f4c;
+    margin-top:4px;
 }

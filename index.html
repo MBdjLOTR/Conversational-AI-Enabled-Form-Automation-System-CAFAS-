@@ -1,32 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AI Form Filling Prototype</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>AI Intelligent Form</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-  <h2>Voice-Enabled Form Filling</h2>
 
-  <!-- Language Selector -->
-  <label for="lang">Choose Language:</label>
-  <select id="lang">
-    <option value="en-US">English (US)</option>
-    <option value="hi-IN">Hindi</option>
-    <option value="fr-FR">French</option>
-    <option value="es-ES">Spanish</option>
-  </select>
+<div class="container">
 
-  <!-- Controls -->
-  <button id="startBtn">Start Assistant</button>
-  <button id="muteBtn">Mute Voice</button>
-  <div id="micIndicator" class="mic-indicator"></div>
+<h1>AI Intelligent Form</h1>
+<p class="subtitle">Natural Language Processing Enabled</p>
 
-  <!-- Dynamic Form -->
-  <form id="userForm"></form>
+<div class="voice-box">
+    <label>Choose Language</label>
+    <select id="lang">
+        <option value="en-US">English (US)</option>
+    </select>
 
-  <p id="confirmation"></p>
+    <div class="btns">
+        <button onclick="startListening()" class="start">🎤 Start Assistant</button>
+        <button onclick="stopListening()" class="mute">Mute</button>
+    </div>
 
-  <script src="script.js"></script>
+    <p id="statusText" class="status"></p>
+</div>
+
+<div class="heard">
+    <b>Heard:</b> <span id="heardText">...</span>
+</div>
+
+<hr>
+
+<!-- NAME -->
+<label>Full Name</label>
+<input type="text" id="name">
+<small id="name_status"></small>
+
+<!-- EMAIL -->
+<label>Email Address</label>
+<input type="text" id="email" placeholder="Say: My email is [email]">
+<small id="email_status"></small>
+
+<!-- DOB -->
+<label>Date of Birth</label>
+<input type="date" id="dob">
+<small id="dob_status"></small>
+
+<!-- GENDER -->
+<label>Gender</label>
+<div class="options">
+<label><input type="radio" name="gender" value="Male"> Male</label>
+<label><input type="radio" name="gender" value="Female"> Female</label>
+<label><input type="radio" name="gender" value="Other"> Other</label>
+</div>
+<small id="gender_status"></small>
+
+<!-- INTERESTS -->
+<label>Interests</label>
+<div class="options">
+<label><input type="checkbox" value="Music"> Music</label>
+<label><input type="checkbox" value="Sports"> Sports</label>
+<label><input type="checkbox" value="Tech"> Tech</label>
+</div>
+<small id="interest_status"></small>
+
+<!-- RATING -->
+<label>Satisfaction</label>
+<div id="stars">
+<span class="star" data="1">★</span>
+<span class="star" data="2">★</span>
+<span class="star" data="3">★</span>
+<span class="star" data="4">★</span>
+<span class="star" data="5">★</span>
+</div>
+<small id="rating_status"></small>
+
+</div>
+
+<script>
+
+let recognition;
+
+function startListening(){
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+
+    recognition.start();
+
+    recognition.onresult = function(e){
+        const text = e.results[0][0].transcript;
+        document.getElementById("heardText").innerText = text;
+
+        fetch("/process-voice",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({text:text})
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            document.getElementById("statusText").innerText = "✔ "+data.status;
+
+            const d = data.data;
+
+            if(d.fullName){
+                name.value = d.fullName;
+                name_status.innerText="Validated Person";
+            }
+
+            if(d.email){
+                email.value=d.email;
+                email_status.innerText="Valid Email detected";
+            }
+
+            if(d.dob){
+                dob.value=d.dob;
+                dob_status.innerText="DOB recognized";
+            }
+
+            if(d.gender){
+                document.querySelectorAll('input[name="gender"]').forEach(r=>{
+                    if(r.value===d.gender) r.checked=true;
+                });
+                gender_status.innerText="Gender identified";
+            }
+
+            if(d.interests){
+                document.querySelectorAll('input[type="checkbox"]').forEach(c=>{
+                    if(d.interests.includes(c.value)) c.checked=true;
+                });
+                interest_status.innerText="Interests mapped";
+            }
+
+            if(d.satisfaction){
+                const stars=document.querySelectorAll(".star");
+                stars.forEach(s=>s.classList.remove("active"));
+                for(let i=0;i<d.satisfaction;i++) stars[i].classList.add("active");
+                rating_status.innerText="Rating recorded";
+            }
+        });
+    }
+}
+
+function stopListening(){
+    if(recognition) recognition.stop();
+}
+
+</script>
+
 </body>
 </html>

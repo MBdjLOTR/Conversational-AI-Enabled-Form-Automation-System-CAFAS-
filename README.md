@@ -17,3 +17,5 @@ This project demonstrates a voice-enabled, multilingual, schema-driven form fill
 
 ## Hosting
 Enable GitHub Pages in repository settings to deploy the app.
+
+<img width="1893" height="824" alt="image" src="https://github.com/user-attachments/assets/27791323-a3ce-4faf-85bb-2c8a7b3f052a" />
