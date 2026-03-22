@@ -2,55 +2,95 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Intelligent Form</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 <div class="container">
 
   <h1>AI Intelligent Form</h1>
-  <p class="subtitle">Natural Language Processing Enabled</p>
+  <p class="subtitle">Conversational AI + BERT + Multilingual Voice Assistant</p>
 
-  <!-- VOICE CONTROL -->
+  <!-- ================= VOICE CONTROL ================= -->
   <div class="voice-box">
+
+    <!-- 🌍 Language -->
     <label>Choose Language</label>
     <select id="lang">
       <option value="en-US">English (US)</option>
       <option value="en-IN">English (India)</option>
-      <option value="es-ES">Spanish (Spain)</option>
-      <option value="fr-FR">French (France)</option>
-      <option value="de-DE">German (Germany)</option>
-      <option value="zh-CN">Chinese (China)</option>
+      <option value="hi-IN">Hindi</option>
+      <option value="es-ES">Spanish</option>
+      <option value="fr-FR">French</option>
+      <option value="de-DE">German</option>
+      <option value="zh-CN">Chinese</option>
     </select>
 
-    <!-- ✅ SINGLE waveform -->
-    <div id="waveform" class="hidden"></div>
+    <!-- 🎤 Waveform -->
+    <div id="waveform" class="waveform hidden">
+      <span></span><span></span><span></span><span></span>
+    </div>
 
+    <!-- BUTTONS -->
     <div class="btns">
       <button id="startAssistant" class="start">🎤 Start Assistant</button>
       <button id="stopAssistant" class="stop">⏹ Stop Assistant</button>
       <button id="muteBtn" class="mute">🔇 Mute Voice</button>
     </div>
 
+    <!-- MIC -->
     <div id="micIndicator">🎤</div>
+
+    <!-- STATUS -->
     <div id="confirmation"></div>
     <p id="statusText"></p>
+
+    <!-- ================= 📊 CONFIDENCE ================= -->
+    <div class="confidence-box">
+      <label>AI Confidence</label>
+      <div class="confidence-bar">
+        <div id="confidenceFill"></div>
+      </div>
+      <span id="confidenceText">0%</span>
+    </div>
+
+    <!-- 📈 GRAPH -->
+    <canvas id="confidenceChart" height="120"></canvas>
+
+    <!-- 🧠 ACCURACY -->
+    <div class="accuracy-box">
+      <label>Model Accuracy Score</label>
+      <span id="accuracyScore">0</span>
+    </div>
+
+    <!-- 🧠 MEMORY CORRECTION -->
+    <div id="memoryCorrection" class="hidden">
+      <p id="memoryText"></p>
+      <button id="confirmMemory">Yes</button>
+      <button id="rejectMemory">No</button>
+    </div>
+
   </div>
 
-  <!-- HEARD -->
+  <!-- ================= HEARD ================= -->
   <div class="heard">
     <b>Heard:</b> <span id="heardText">...</span>
   </div>
 
   <hr>
 
-  <!-- ✅ ONLY ONE FORM SOURCE (JS will render cards here) -->
+  <!-- ================= FORM ================= -->
   <div id="userForm" class="form-grid"></div>
 
-  <!-- PROGRESS -->
+  <!-- ================= PROGRESS ================= -->
   <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
   </div>
